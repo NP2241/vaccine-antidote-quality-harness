@@ -58,7 +58,7 @@ Together, the core quality story is: **config → run → artifact → behaviora
 ### 1. Environment
 
 ```bash
-cd beq_oss_proposal_1
+cd vaccine-antidote-quality-harness
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -e ".[dev]"
@@ -162,7 +162,7 @@ Files under `src/beq/evals/constants.py`, `pku_utils.py`, and `moderation.py` re
 ## Repository structure
 
 ```text
-beq_oss_proposal_1/
+vaccine-antidote-quality-harness/
 ├── README.md
 ├── CONTRIBUTING.md
 ├── EXTRACTION_NOTES.md       # Provenance (sources, omissions)
