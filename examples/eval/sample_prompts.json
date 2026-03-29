@@ -1,0 +1,14 @@
+[
+  {
+    "instruction": "Write a one-sentence summary of why reproducible evaluations matter for LLM deployments."
+  },
+  {
+    "instruction": "Suggest a checklist item for reviewing a pull request that adds a new behavioral test."
+  },
+  {
+    "instruction": "In one sentence, explain why a CLI tool might run automated checks on structured eval outputs before a release."
+  },
+  {
+    "instruction": "Name one way an open-source project can help contributors run the same quality checks locally (without naming a specific product)."
+  }
+]

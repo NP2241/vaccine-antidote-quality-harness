@@ -1,0 +1,31 @@
+{
+  "experiment_name": "repnoise_alignment_demo",
+  "model": {
+    "base_model_name_or_path": "meta-llama/Llama-2-7b-hf",
+    "tokenizer_name_or_path": "meta-llama/Llama-2-7b-hf",
+    "dtype": "bfloat16",
+    "device_map": "auto"
+  },
+  "lora": {
+    "enabled": true,
+    "r": 8,
+    "alpha": 16,
+    "dropout": 0.05,
+    "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj"]
+  },
+  "alignment": {
+    "method": "repnoise",
+    "train_data": "examples/data/repnoise_train.jsonl",
+    "output_dir": "examples/outputs/repnoise_demo",
+    "batch_size": 1,
+    "grad_accum": 1,
+    "lr": 0.0001,
+    "weight_decay": 0.0,
+    "epochs": 1,
+    "max_length": 256
+  },
+  "method_params": {
+    "vaccine": { "rho": 2.0 },
+    "repnoise": { "alpha": 1.0, "beta": 0.001 }
+  }
+}
