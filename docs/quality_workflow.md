@@ -1,36 +1,71 @@
 # Quality workflow
 
-This document describes the **config → run → artifact → eval → judge → report** flow implemented in this demo and what a contributor would **inspect** at each step.
+End-to-end flow: **config → train (optional) → generate → judge → inspect JSON**.
 
-## Flow
+## Steps
 
-1. **Config (optional alignment)** — JSON under `configs/` describes model and alignment method. Running `beq align` (or `beq pipeline`) executes training and writes:
-   - `artifact.json` — stable metadata and paths to saved weights/tokenizer
-   - `train_metrics.json` — lightweight training diagnostics
-   - `merged_model/`, `tokenizer/` — on disk under `alignment.output_dir`
+### 1. Alignment (optional)
 
-2. **Behavioral eval generation** — `beq eval-generate` reads instructions (JSON file or BeaverTails subset) and writes a **JSON array** of `{ "instruction": "...", "output": "..." }`.
+`beq align --config configs/<method>_example.json`
 
-3. **Guardrail-style judging** — `beq eval-judge` consumes that JSON and writes a file with:
-   - `summary` — e.g. sample count, flagged count, aggregate rate, moderation model id
-   - `results` — original rows plus `violated_categories` per row
+Writes under `alignment.output_dir` (e.g. `examples/outputs/sft_demo/`):
 
-4. **Report (optional)** — `write_pipeline_report` (used from `align` / `pipeline` with `--write-report` / `--report-out`) writes `pipeline_report.json` with UTC timestamp, artifact path, and steps. **Today** eval output paths are **not** auto-attached; run eval separately and merge reporting in a future iteration if needed.
+| File | Contents |
+|------|----------|
+| `artifact.json` | `method_name`, model paths, `stage2_ready`, base model id |
+| `train_metrics.json` | Step count, last loss |
+| `merged_model/`, `tokenizer/` | Saved weights |
+
+Swap method via config: `sft`, `vaccine`, or `repnoise`.
+
+### 2. Behavioral eval generation
+
+`beq eval-generate --instruction-path ... --output-path ...`
+
+Input: JSON array of `{ "instruction": "..." }` or the `BeaverTails` dataset keyword.
+
+Output: JSON array of `{ "instruction", "output" }`.
+
+### 3. Moderation judge
+
+`beq eval-judge --input-path <generations.json> --output-path <judged.json>`
+
+Output shape (see `examples/eval/sample_generations_judged.placeholder.json`):
+
+- **`summary`** — `samples`, `flagged_count`, `harmful_rate_percent`, `moderation_model`
+- **`results`** — each row plus `violated_categories`
+
+### 4. Pipeline report (optional)
+
+`beq pipeline --config ... --report-out examples/outputs/pipeline_report.json`
+
+Runs alignment only and writes a timestamped report. Eval paths are **not** auto-filled — run generate/judge separately and merge reporting manually if needed.
 
 ## What to inspect
 
-| Output | What to look for |
-|--------|-------------------|
-| Generations JSON | Row count, sensible `output` text for each `instruction` |
-| Judged JSON | `summary` aggregates; per-row `violated_categories` for debugging |
-| `artifact.json` | Keys match expectations in tests (`tests/test_artifact_schema.py`) |
-| `pipeline_report.json` | When alignment ran, path to `artifact.json`, timestamp |
+| Output | Check |
+|--------|-------|
+| Generations JSON | Row count; outputs match prompt intent |
+| Judged JSON | `summary` aggregates; per-row categories for failures |
+| `artifact.json` | Keys match `tests/test_artifact_schema.py` |
+| `pipeline_report.json` | Artifact path and timestamp when alignment ran |
 
-## How this could evolve
+## Example judged output (placeholder)
 
-- **Single orchestrated command** that runs align → generate → judge and fills `eval_paths` in the report.
-- **CI** that runs `pytest` on every PR and, with policy, optional GPU jobs or scheduled evals.
-- **Threshold gate** that exits non-zero when aggregate metrics regress beyond a budget.
-- **Richer diagnostics** (structured logs, trace ids) for failures in generate/judge.
-
-These extensions align with **OSS quality ecosystems** and **Gemini CLI–style** iteration without changing the core idea: **structured eval artifacts** and **automated judging** as first-class outputs.
+```json
+{
+  "summary": {
+    "samples": 2,
+    "flagged_count": 0,
+    "harmful_rate_percent": 0.0,
+    "moderation_model": "PKU-Alignment/beaver-dam-7b"
+  },
+  "results": [
+    {
+      "instruction": "...",
+      "output": "...",
+      "violated_categories": []
+    }
+  ]
+}
+```

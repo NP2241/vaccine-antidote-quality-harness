@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Minimal behavioral eval + guardrail-style judge (local two-step demo).
+# Minimal eval-generate + eval-judge demo (see README quickstart).
 # Run from repo root after: pip install -e ".[dev]" && export HF_TOKEN=...
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"

@@ -5,7 +5,7 @@ Scores each (instruction, output) pair and writes structured JSON: a summary blo
 violated_categories. These outputs are suitable for human review and for future
 automation (e.g. thresholds, dashboards); this module does not enforce failing exit codes.
 
-Adapted from prior eval utilities (see EXTRACTION_NOTES.md / PKU-Alignment licensing).
+Adapted from PKU Antidote eval utilities (see docs/PROVENANCE.md).
 """
 
 from __future__ import annotations

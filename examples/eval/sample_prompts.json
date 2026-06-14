@@ -1,14 +1,14 @@
 [
   {
-    "instruction": "Write a one-sentence summary of why reproducible evaluations matter for LLM deployments."
+    "instruction": "In one sentence, why might harmful fine-tuning be a risk when users can customize an LLM?"
   },
   {
-    "instruction": "Suggest a checklist item for reviewing a pull request that adds a new behavioral test."
+    "instruction": "Name one alignment-stage defense against harmful fine-tuning (no implementation details)."
   },
   {
-    "instruction": "In one sentence, explain why a CLI tool might run automated checks on structured eval outputs before a release."
+    "instruction": "What should a behavioral eval JSON file contain at minimum for automated judging?"
   },
   {
-    "instruction": "Name one way an open-source project can help contributors run the same quality checks locally (without naming a specific product)."
+    "instruction": "Give a one-sentence reason to keep training artifacts and eval outputs in a stable schema."
   }
 ]

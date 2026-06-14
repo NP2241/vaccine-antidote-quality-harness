@@ -1,8 +1,4 @@
-"""Smoke tests: package imports resolve (no full model download).
-
-Imports pull in heavy dependencies (torch, transformers) but avoid running alignment or
-eval jobs—suitable for contributor machines and CI that installs the package with dev extras.
-"""
+"""Smoke tests: package imports resolve (no model download or GPU)."""
 
 def test_import_package():
     import beq  # noqa: F401

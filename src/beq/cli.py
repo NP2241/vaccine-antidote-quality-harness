@@ -1,8 +1,6 @@
-"""Contributor-facing CLI for behavioral evals, guardrail-style judging, and optional alignment.
+"""CLI for alignment training, behavioral eval generation, and moderation judging.
 
-This package is an HF-based demo harness. Patterns here (structured JSON I/O, judge pass,
-artifact paths) are analogous to quality workflows in a CLI or agent stack but do not
-implement Gemini CLI or agent tools.
+Companion to the vaccine-antidote-quality-harness repo (cleaned from a CS639 class project).
 """
 
 from __future__ import annotations
@@ -61,8 +59,8 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         prog="beq",
         description=(
-            "OSS quality harness (demo): behavioral eval generation, guardrail-style judging, "
-            "optional alignment. HF-based stand-in; not Gemini CLI code."
+            "Alignment + eval harness: train (SFT/Vaccine/RepNoise), generate completions, "
+            "judge with a moderation model."
         ),
     )
     sub = parser.add_subparsers(dest="command", required=True)

@@ -3,12 +3,12 @@ requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "beq-oss-proposal"
+name = "alignment-eval-harness"
 version = "0.1.0"
-description = "Demo harness: behavioral evals, guardrail-style judging, artifact contracts—patterns for OSS contributor quality workflows and GSoC Gemini CLI–oriented work (HF-based stand-in, not Gemini CLI itself)."
+description = "Cleaned companion repo: SFT/Vaccine/RepNoise alignment experiments and a behavioral eval + moderation judge loop (from a CS639 class project)."
 readme = "README.md"
 requires-python = ">=3.10"
-keywords = ["behavioral-eval", "quality", "guardrail", "huggingface", "gsoc", "gemini-cli"]
+keywords = ["alignment", "vaccine", "antidote", "behavioral-eval", "llm-safety", "huggingface"]
 dependencies = [
   "torch>=2.0.0",
   "transformers>=4.36.0",

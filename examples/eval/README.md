@@ -2,8 +2,13 @@
 
 ## `sample_prompts.json`
 
-A minimal **JSON array** of objects with an `instruction` field. These are passed to **`beq eval-generate`** (see the root **README**) to produce `{instruction, output}` rows for **behavioral evaluation** and then **`beq eval-judge`** for a **guardrail-style** pass.
+A minimal JSON array of `{ "instruction": "..." }` objects for local runs without downloading BeaverTails.
 
-The prompts are **generic**: they mention reproducible evals, pull requests, CLI-style quality, and agent scenarios **only as illustration**—this repo does not run Gemini CLI or real agent tools.
+```bash
+beq eval-generate --instruction-path examples/eval/sample_prompts.json --output-path examples/outputs/sample_generations.json ...
+beq eval-judge --input-path examples/outputs/sample_generations.json --output-path examples/outputs/sample_generations_judged.json
+```
 
-Use this file to iterate locally without downloading the BeaverTails dataset for instructions.
+## `sample_generations_judged.placeholder.json`
+
+Shows the judged JSON shape (`summary` + `results` with `violated_categories`) before you run a full model download.

@@ -1,11 +1,9 @@
 """Behavioral eval generation: instructions to model outputs as structured JSON.
 
 Loads a causal LM (optional LoRA merge), runs each instruction with a fixed chat-style
-template string (Alpaca-like). That template is a **stand-in** for prompt iteration in a
-product CLI: the transferable pattern is **reproducible, JSON-serialized generations** for
-downstream guardrail or regression-style checks—not Gemini CLI prompts or tool calls.
+template string (Alpaca-like). Writes reproducible JSON for downstream moderation judging.
 
-Adapted from prior evaluation code (see EXTRACTION_NOTES.md).
+Adapted from PKU Antidote eval utilities (see docs/PROVENANCE.md).
 """
 
 from __future__ import annotations

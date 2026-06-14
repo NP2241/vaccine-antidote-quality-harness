@@ -12,3 +12,4 @@ outputs/
 examples/outputs/
 *.json.bak
 .DS_Store
+linkedin.md
